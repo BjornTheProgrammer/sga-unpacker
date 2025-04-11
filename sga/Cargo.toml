@@ -7,7 +7,7 @@ repository.workspace = true
 description = "Library for unpacking '.sga' files from Relic."
 
 [dependencies]
-sga-macros = { path = "../sga-macros" }
+sga-macros = { version = "0.1.0", path = "../sga-macros" }
 
 anyhow = { workspace = true }
 byteorder = { workspace = true }
