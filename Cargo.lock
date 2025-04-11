@@ -244,7 +244,7 @@ dependencies = [
 ]
 
 [[package]]
-name = "sga-unpacker-cli"
+name = "sga-unpacker"
 version = "0.1.0"
 dependencies = [
  "anyhow",
