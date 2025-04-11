@@ -6,7 +6,7 @@ There are a few options of how to install sga-unpacker, below are listed the way
 
 ### Cargo
 
-`cargo install --git https://github.com/BjornTheProgrammer/sga-unpacker`
+`cargo install sga-unpacker`
 
 ### Binary
 
