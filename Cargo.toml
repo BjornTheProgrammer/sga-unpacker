@@ -1,0 +1,12 @@
+[package]
+name = "sga-unpacker"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+anyhow = "1.0"
+byteorder = "1"
+sga-macros = { path = "./sga-macros" }
+thiserror = "2"
+flate2 = "1.0"
+brotli = "7.0.0"
