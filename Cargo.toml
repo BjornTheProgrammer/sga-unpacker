@@ -14,6 +14,7 @@ version = "0.1.0"
 authors = ["Bjorn Beishline"]
 license = "MIT"
 edition = "2024"
+repository = "https://github.com/BjornTheProgrammer/sga-unpacker"
 
 [workspace.dependencies]
 anyhow = "1.0"
