@@ -1,0 +1,13 @@
+[package]
+name = "sga"
+version.workspace = true
+edition.workspace = true
+
+[dependencies]
+sga-macros = { path = "../sga-macros" }
+
+anyhow = { workspace = true }
+byteorder = { workspace = true }
+thiserror = { workspace = true }
+flate2 = { workspace = true }
+brotli = { workspace = true }

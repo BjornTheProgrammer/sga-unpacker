@@ -4,7 +4,7 @@ use anyhow::Result;
 use brotli::Decompressor;
 use flate2::read::DeflateDecoder;
 
-use crate::{sga::entires::{FileStorageType, SgaEntries, SgaFileEntry}, utils::read_c_string};
+use crate::{entires::{FileStorageType, SgaEntries, SgaFileEntry}, utils::read_c_string};
 
 use super::FolderNode;
 

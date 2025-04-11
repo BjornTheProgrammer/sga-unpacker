@@ -1,0 +1,10 @@
+[package]
+name = "sga-unpacker-cli"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+sga = { path = "../sga" }
+
+clap = { workspace = true }
+anyhow = { workspace = true }

@@ -2,7 +2,7 @@ use std::{io::{BufRead, Read, Seek}, sync::{Arc, Mutex}};
 
 use anyhow::Result;
 
-use crate::sga::entires::{SgaEntries, SgaToC};
+use crate::entires::{SgaEntries, SgaToC};
 
 use super::FolderNode;
 

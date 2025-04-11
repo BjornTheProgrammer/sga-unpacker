@@ -1,9 +1,11 @@
 use std::{fs::{self, File}, io::{BufRead, BufReader, Read, Seek}, path::Path, sync::{Arc, Mutex}};
 
 use anyhow::Result;
-use sga::{entires::SgaEntries, nodes::{FolderNode, Node, Toc}};
+use entires::SgaEntries;
+use nodes::{FolderNode, Node, Toc};
 
-pub mod sga;
+pub mod nodes;
+pub mod entires;
 pub(crate) mod utils;
 
 fn visit_folder<T: Read + Seek + BufRead>(

@@ -1,12 +1,24 @@
-[package]
-name = "sga-unpacker"
+[workspace]
+resolver = "2"
+
+members = [
+    "sga",
+    "sga-macros",
+    "sga-unpacker-cli"
+]
+
+default-members = ["sga-unpacker-cli"]
+
+[workspace.package]
 version = "0.1.0"
+authors = ["Bjorn Beishline"]
+license = "MIT"
 edition = "2024"
 
-[dependencies]
+[workspace.dependencies]
 anyhow = "1.0"
 byteorder = "1"
-sga-macros = { path = "./sga-macros" }
 thiserror = "2"
 flate2 = "1.0"
 brotli = "7.0.0"
+clap = { version = "4.5.35", features = ["derive"] }
