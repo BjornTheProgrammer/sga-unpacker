@@ -18,7 +18,7 @@ pub struct FileNode {
     data_length: usize,
     data_uncompressed_length: usize,
 
-    storage_type: FileStorageType,
+    pub storage_type: FileStorageType,
 }
 
 impl FileNode {
@@ -39,7 +39,7 @@ impl FileNode {
         reader.seek(SeekFrom::Start(self.data_position))?;
 
         match self.storage_type {
-            FileStorageType::Store => {
+            FileStorageType::Store | FileStorageType::Unknown(_) => {
                 let mut data = vec![0u8; self.data_length as usize];
                 reader.read_exact(&mut data)?;
                 Ok(data)

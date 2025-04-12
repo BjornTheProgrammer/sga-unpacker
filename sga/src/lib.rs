@@ -1,7 +1,7 @@
 use std::{fs::{self, File}, io::{BufRead, BufReader, Read, Seek}, path::Path, sync::{Arc, Mutex}};
 
 use anyhow::Result;
-use entires::SgaEntries;
+use entires::{FileStorageType, SgaEntries};
 use nodes::{FolderNode, Node, Toc};
 
 pub mod nodes;
@@ -47,6 +47,11 @@ fn write_to_disk<T: Read + Seek, P: AsRef<Path>>(
             Node::File(file_node) => {
                 let data = file_node.read_data(reader)?;
                 let file_path = folder_path.join(&file_node.name);
+
+                if let FileStorageType::Unknown(n) = file_node.storage_type {
+                    println!("The storage type of '{:?}' is unknown with value of '{}', it will be unpacked as raw bytes!", file_path, n);
+                }
+
                 fs::write(file_path, &data)?;
             }
             Node::Folder(subfolder) => {

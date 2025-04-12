@@ -76,18 +76,21 @@ pub enum FileStorageType {
 
     /// Stored compressed (buffer compression with Brotli).
     BufferCompressBrotli,
+
+    /// Unknown file type
+    Unknown(u8),
 }
 
 impl FileStorageType {
     /// Parses a byte into a `FileStorageType`.
-    pub fn from_u8(value: u8) -> Result<Self, String> {
+    pub fn from_u8(value: u8) -> Self {
         match value {
-            0 => Ok(Self::Store),
-            1 => Ok(Self::StreamCompress),
-            2 => Ok(Self::BufferCompress),
-            3 => Ok(Self::StreamCompressBrotli),
-            4 => Ok(Self::BufferCompressBrotli),
-            _ => Err("Invalid file storage type".into()),
+            0 => Self::Store,
+            1 => Self::StreamCompress,
+            2 => Self::BufferCompress,
+            3 => Self::StreamCompressBrotli,
+            4 => Self::BufferCompressBrotli,
+            _ => Self::Unknown(value),
         }
     }
 
@@ -98,6 +101,7 @@ impl FileStorageType {
             FileStorageType::BufferCompress => 2,
             FileStorageType::StreamCompressBrotli => 3,
             FileStorageType::BufferCompressBrotli => 4,
+            FileStorageType::Unknown(n) => n,
         }
     }
 }
@@ -143,7 +147,7 @@ impl SgaFileEntry {
 
         
         let verification_type = FileVerificationType::from_u8(verification_type_byte).map_err(|err| SgaFileEntryParseError::FailedToParseVerificationType(err.to_string()))?;
-        let storage_type = FileStorageType::from_u8(storage_type_byte).map_err(|err| SgaFileEntryParseError::FailedToParseStorageType(err.to_string()))?;
+        let storage_type = FileStorageType::from_u8(storage_type_byte);
 
         Ok(Self {
             name_offset,
