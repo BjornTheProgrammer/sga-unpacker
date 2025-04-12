@@ -12,21 +12,29 @@ use crate::{entires::{SgaEntries, SgaFolderEntry}, utils::read_c_string};
 
 use super::FileNode;
 
+/// A folder can store any number of folders or files
 #[derive(Debug, Clone)]
 pub enum Node {
     Folder(Arc<Mutex<FolderNode>>),
     File(Arc<FileNode>),
 }
 
+/// Represents a folder in the file system.
 #[derive(Debug, Clone)]
 pub struct FolderNode {
+    /// The name of the folder
     pub name: String,
 
+    /// The parent of the folder
     pub parent: Option<Arc<Mutex<FolderNode>>>,
+    /// The children of the folder
     pub children: Vec<Node>,
+
+    /// The folder's entry
     entry: SgaFolderEntry,
 }
 
+/// Reads the folder's name from a stream, you need to seek to the proper position before usage.
 fn read_folder_name_from_stream<U: Read + BufRead>(reader: &mut U) -> Result<String> {
     let mut folder_name = read_c_string(reader)?;
 
@@ -39,6 +47,7 @@ fn read_folder_name_from_stream<U: Read + BufRead>(reader: &mut U) -> Result<Str
 }
 
 impl FolderNode {
+    /// Construct a new FolderNode
     pub fn new(
         name: String,
         entry: SgaFolderEntry,
@@ -58,10 +67,13 @@ impl FolderNode {
         }
     }
 
+    /// Add a child to the folder
     pub fn add_child(&mut self, node: Node) {
         self.children.push(node);
     }
 
+    /// Reads all the files from the folder
+    /// Kinda annoying, but since we can't do arbitrary self types in rust, you must pass `this` instead.
     pub fn read_files_from_folder<T: Read + BufRead + Seek>(
         this: Arc<Mutex<Self>>,
         reader: &mut T,
@@ -92,6 +104,8 @@ impl FolderNode {
         Ok(nodes)
     }
 
+    /// Reads all the folders from the specified folder
+    /// Kinda annoying, but since we can't do arbitrary self types in rust, you must pass `this` instead.
     pub fn read_folders_from_folder<T: Read + BufRead + Seek>(
         this: Arc<Mutex<Self>>,
         reader: &mut T,
@@ -110,6 +124,7 @@ impl FolderNode {
         Ok(nodes)
     }
 
+    /// Constructs a folder from an entry
     pub fn folder_from_entry<T: Read + BufRead + Seek>(
         reader: &mut T,
         entries: &SgaEntries,

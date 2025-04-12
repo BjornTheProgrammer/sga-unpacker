@@ -8,6 +8,8 @@ pub mod nodes;
 pub mod entires;
 pub(crate) mod utils;
 
+/// This function visits all the files and folders from the specified folder.
+/// It then adds the files and folders it finds on the way as children to the parent
 fn visit_folder<T: Read + Seek + BufRead>(
     reader: &mut T,
     folder: Arc<Mutex<FolderNode>>,
@@ -31,7 +33,8 @@ fn visit_folder<T: Read + Seek + BufRead>(
     Ok(())
 }
 
-fn write_to_disk<T: Read + Seek, P: AsRef<Path>>(
+/// This function writes the files and folders to the disk at the specified path.
+pub fn write_to_disk<T: Read + Seek, P: AsRef<Path>>(
     reader: &mut T,
     folder: Arc<Mutex<FolderNode>>,
     base_path: P,
@@ -63,6 +66,7 @@ fn write_to_disk<T: Read + Seek, P: AsRef<Path>>(
     Ok(())
 }
 
+/// This function extracts all files from the sga into the specified out path.
 pub fn extract_all<P: AsRef<Path>>(sga_file: P, out_path: P) -> Result<()> {
     let mut sga_file = BufReader::new(File::open(sga_file)?);
 
@@ -78,6 +82,33 @@ pub fn extract_all<P: AsRef<Path>>(sga_file: P, out_path: P) -> Result<()> {
         write_to_disk(&mut sga_file, toc.root_folder, out_path.as_ref())?;
     }
 
+
+    Ok(())
+}
+
+
+/// This function extracts all files from the sga into the specified out path.
+pub fn extract_toc_folders_only<P: AsRef<Path>>(sga_file: P, out_path: P) -> Result<()> {
+    let mut sga_file = BufReader::new(File::open(sga_file)?);
+
+    let mut entries = SgaEntries::new(&mut sga_file)?;
+    let toc_entries = std::mem::replace(&mut entries.tocs, Vec::new());
+    let tocs: Vec<_> = toc_entries
+        .into_iter()
+        .map(|toc| Toc::initialize_from_entry(&mut sga_file, &entries, toc).unwrap())
+        .collect();
+
+    for toc in tocs {
+        let folder = toc.root_folder.clone();
+        let files = FolderNode::read_files_from_folder(folder.clone(), &mut sga_file, &entries)?;
+    
+        for file in files {
+            let file = Arc::new(file);
+            folder.lock().unwrap().add_child(Node::File(file));
+        }
+
+        write_to_disk(&mut sga_file, folder, &out_path)?;
+    }
 
     Ok(())
 }

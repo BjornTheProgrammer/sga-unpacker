@@ -6,6 +6,7 @@ use crate::entires::{SgaEntries, SgaToC};
 
 use super::FolderNode;
 
+/// The table of contents for a sga file.
 #[derive(Debug, Clone)]
 pub struct Toc {
     pub name: String,
@@ -17,6 +18,7 @@ pub struct Toc {
 }
 
 impl Toc {
+    /// Create a new Toc
     pub fn new(name: String, alias: String, root_folder: Arc<Mutex<FolderNode>>, toc_entry: SgaToC) -> Self {
         Self {
             name,
@@ -26,6 +28,7 @@ impl Toc {
         }
     }
 
+    /// Initialize a Toc from an entry file
     pub fn initialize_from_entry<T: Read + BufRead + Seek>(reader: &mut T, entries: &SgaEntries, toc: SgaToC) -> Result<Self> {
         let root_folder_entry = &entries.folders[toc.folder_root_index as usize];
         let root_folder = FolderNode::folder_from_entry(reader, entries, &root_folder_entry, None)?;

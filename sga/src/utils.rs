@@ -1,6 +1,7 @@
 use std::{ffi::CString, io::{self, BufRead, ErrorKind, Read}};
 use anyhow::Result;
 
+/// Reads a c string from the current position in the buffer.
 pub fn read_c_string<R: Read +  BufRead>(reader: &mut R) -> Result<String> {
     let mut cstring_vec = vec![];
     reader.read_until(b'\0', &mut cstring_vec)?;
@@ -10,6 +11,8 @@ pub fn read_c_string<R: Read +  BufRead>(reader: &mut R) -> Result<String> {
     Ok(parsed_string)
 }
 
+/// Reads a fixed section from the buffer.
+/// if char_size is greater than 1, then it reads char_count * char_size bytes.
 pub fn read_fixed_string<R: Read>(reader: &mut R, char_count: usize, char_size: usize) -> io::Result<String> {
     let total_bytes = char_count * char_size;
     let mut buffer = vec![0u8; total_bytes];

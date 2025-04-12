@@ -28,6 +28,7 @@ impl Parse for ReadFieldInput {
     }
 }
 
+/// This is a macro which automates creating a custom error if there is a parse error, and reads the specified uint and int type from the buffer, only as a Little Endian.
 #[proc_macro]
 pub fn read_field(input: TokenStream) -> TokenStream {
     let ReadFieldInput {
