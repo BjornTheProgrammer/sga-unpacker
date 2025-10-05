@@ -223,8 +223,16 @@ dependencies = [
 ]
 
 [[package]]
+name = "relic-chunky"
+version = "0.1.2"
+dependencies = [
+ "byteorder",
+ "thiserror",
+]
+
+[[package]]
 name = "sga"
-version = "0.1.1"
+version = "0.1.2"
 dependencies = [
  "anyhow",
  "brotli",
@@ -236,7 +244,7 @@ dependencies = [
 
 [[package]]
 name = "sga-macros"
-version = "0.1.1"
+version = "0.1.2"
 dependencies = [
  "proc-macro2",
  "quote",
@@ -245,7 +253,7 @@ dependencies = [
 
 [[package]]
 name = "sga-unpacker"
-version = "0.1.1"
+version = "0.1.2"
 dependencies = [
  "anyhow",
  "clap",

@@ -1,7 +1,8 @@
 [workspace]
-resolver = "2"
+resolver = "3"
 
 members = [
+    "relic-chunky",
     "sga",
     "sga-macros",
     "sga-unpacker-cli"
@@ -10,7 +11,7 @@ members = [
 default-members = ["sga-unpacker-cli"]
 
 [workspace.package]
-version = "0.1.1"
+version = "0.1.2"
 authors = ["Bjorn Beishline"]
 license = "MIT"
 edition = "2024"
