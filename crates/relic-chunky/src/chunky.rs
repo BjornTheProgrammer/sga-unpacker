@@ -30,7 +30,7 @@ impl ChunkyFileHeader {
     }
 }
 
-#[derive(Debug)]
+#[derive(Debug, PartialEq)]
 pub enum ChunkType {
     Data,
     Folder,
@@ -53,8 +53,6 @@ pub enum DataStoreError {
     InvalidMagic,
     #[error("I/O error: {0}")]
     Io(#[from] io::Error),
-    #[error("invalid C string: {0}")]
-    InvalidCString(#[from] FromBytesUntilNulError),
 }
 
 impl ChunkHeader {

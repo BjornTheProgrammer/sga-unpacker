@@ -1,14 +1,9 @@
 [workspace]
 resolver = "3"
 
-members = [
-    "relic-chunky",
-    "sga",
-    "sga-macros",
-    "sga-unpacker-cli"
-]
+members = ["crates/*"]
 
-default-members = ["sga-unpacker-cli"]
+default-members = ["crates/sga-unpacker-cli"]
 
 [workspace.package]
 version = "0.1.2"
